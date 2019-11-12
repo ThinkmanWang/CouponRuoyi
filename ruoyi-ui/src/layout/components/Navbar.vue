@@ -17,7 +17,6 @@
 <!--        <el-tooltip content="布局大小" effect="dark" placement="bottom">-->
 <!--          <size-select id="size-select" class="right-menu-item hover-effect" />-->
 <!--        </el-tooltip>-->
-
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
