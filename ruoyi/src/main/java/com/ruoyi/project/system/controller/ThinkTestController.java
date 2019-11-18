@@ -1,6 +1,5 @@
 package com.ruoyi.project.system.controller;
 
-import com.ruoyi.framework.aspectj.lang.annotation.ThinkDataSource;
 import com.ruoyi.framework.aspectj.lang.enums.DataSourceType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
