@@ -31,8 +31,6 @@ public class ThinkTestController extends BaseController {
     public AjaxResult test1()
     {
         List<Test> list = testService.getAll();
-
-        List<SysRole> lstRole = roleService.selectRoleAll();
         return AjaxResult.success(list);
     }
 }

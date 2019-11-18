@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface TestMapper {
 
+    @DataSource(DataSourceType.THINKMAN)
     @Select("SELECT * FROM t_test")
     public List<Test> getAll();
 }
