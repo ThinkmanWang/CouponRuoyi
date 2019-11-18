@@ -61,19 +61,27 @@ public class DataSourceAspect
     {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Class<? extends Object> targetClass = point.getTarget().getClass();
-        DataSource targetDataSource = targetClass.getAnnotation(DataSource.class);
 
-        if (StringUtils.isNull(targetDataSource)) {
-            if (targetClass.getInterfaces().length > 0) {
-                for (int i = 0; i < targetClass.getInterfaces().length; ++i) {
-                    DataSource temp = targetClass.getInterfaces()[i].getAnnotation(DataSource.class);
+        DataSource targetDataSource = null;
+        Class<?> _class = point.getTarget().getClass();
+        while (_class != null) {
+            if (StringUtils.isNotNull(targetDataSource)) {
+                break;
+            }
 
-                    if (StringUtils.isNotNull(temp)) {
-                        targetDataSource = temp;
-                        break;
-                    }
+            targetDataSource = _class.getAnnotation(DataSource.class);
+            if (StringUtils.isNotNull(targetDataSource)) {
+                break;
+            }
+
+            for (int i = 0; i < _class.getInterfaces().length; ++i) {
+                targetDataSource = targetClass.getInterfaces()[i].getAnnotation(DataSource.class);
+                if (StringUtils.isNotNull(targetDataSource)) {
+                    break;
                 }
             }
+
+            _class = _class.getSuperclass();
         }
 
         if (StringUtils.isNotNull(targetDataSource))
