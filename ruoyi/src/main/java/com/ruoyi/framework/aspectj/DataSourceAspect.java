@@ -91,12 +91,12 @@ public class DataSourceAspect
                     return targetDataSource;
                 }
 
-                for (int j = 0; j < _interface.getInterfaces().length; ++j) {
-                    targetDataSource = _interface.getInterfaces()[j].getAnnotation(annotationClass);
-                    if (StringUtils.isNotNull(targetDataSource)) {
-                        return targetDataSource;
-                    }
-                }
+//                for (int j = 0; j < _interface.getInterfaces().length; ++j) {
+//                    targetDataSource = _interface.getInterfaces()[j].getAnnotation(annotationClass);
+//                    if (StringUtils.isNotNull(targetDataSource)) {
+//                        return targetDataSource;
+//                    }
+//                }
             }
 
             _class = _class.getSuperclass();
