@@ -62,27 +62,7 @@ public class DataSourceAspect
         MethodSignature signature = (MethodSignature) point.getSignature();
         Class<? extends Object> targetClass = point.getTarget().getClass();
 
-        DataSource targetDataSource = null;
-        Class<?> _class = point.getTarget().getClass();
-        while (_class != null) {
-            if (StringUtils.isNotNull(targetDataSource)) {
-                break;
-            }
-
-            targetDataSource = _class.getAnnotation(DataSource.class);
-            if (StringUtils.isNotNull(targetDataSource)) {
-                break;
-            }
-
-            for (int i = 0; i < _class.getInterfaces().length; ++i) {
-                targetDataSource = targetClass.getInterfaces()[i].getAnnotation(DataSource.class);
-                if (StringUtils.isNotNull(targetDataSource)) {
-                    break;
-                }
-            }
-
-            _class = _class.getSuperclass();
-        }
+        DataSource targetDataSource = getDataSource(point.getTarget().getClass(), DataSource.class);
 
         if (StringUtils.isNotNull(targetDataSource))
         {
@@ -94,6 +74,35 @@ public class DataSourceAspect
             DataSource dataSource = method.getAnnotation(DataSource.class);
             return dataSource;
         }
+    }
+
+    private DataSource getDataSource(Class<?> _class, Class<DataSource> annotationClass) {
+        DataSource targetDataSource = null;
+        while (_class != null) {
+            targetDataSource = _class.getAnnotation(annotationClass);
+            if (StringUtils.isNotNull(targetDataSource)) {
+                return targetDataSource;
+            }
+
+            for (int i = 0; i < _class.getInterfaces().length; ++i) {
+                Class<?> _interface = _class.getInterfaces()[i];
+                targetDataSource = _interface.getAnnotation(annotationClass);
+                if (StringUtils.isNotNull(targetDataSource)) {
+                    return targetDataSource;
+                }
+
+                for (int j = 0; j < _interface.getInterfaces().length; ++j) {
+                    targetDataSource = _interface.getInterfaces()[j].getAnnotation(annotationClass);
+                    if (StringUtils.isNotNull(targetDataSource)) {
+                        return targetDataSource;
+                    }
+                }
+            }
+
+            _class = _class.getSuperclass();
+        }
+
+        return null;
     }
 
 }
