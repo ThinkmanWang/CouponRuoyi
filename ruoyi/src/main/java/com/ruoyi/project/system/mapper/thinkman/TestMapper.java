@@ -9,9 +9,9 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
+@DataSource(DataSourceType.THINKMAN)
 public interface TestMapper {
 
-    @DataSource(DataSourceType.THINKMAN)
     @Select("SELECT * FROM t_test")
     public List<Test> getAll();
 }

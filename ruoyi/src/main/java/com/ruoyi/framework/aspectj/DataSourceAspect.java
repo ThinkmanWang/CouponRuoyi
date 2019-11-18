@@ -62,6 +62,20 @@ public class DataSourceAspect
         MethodSignature signature = (MethodSignature) point.getSignature();
         Class<? extends Object> targetClass = point.getTarget().getClass();
         DataSource targetDataSource = targetClass.getAnnotation(DataSource.class);
+
+        if (StringUtils.isNull(targetDataSource)) {
+            if (targetClass.getInterfaces().length > 0) {
+                for (int i = 0; i < targetClass.getInterfaces().length; ++i) {
+                    DataSource temp = targetClass.getInterfaces()[i].getAnnotation(DataSource.class);
+
+                    if (StringUtils.isNotNull(temp)) {
+                        targetDataSource = temp;
+                        break;
+                    }
+                }
+            }
+        }
+
         if (StringUtils.isNotNull(targetDataSource))
         {
             return targetDataSource;
@@ -73,4 +87,5 @@ public class DataSourceAspect
             return dataSource;
         }
     }
+
 }
